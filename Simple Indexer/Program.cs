@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Indexer
 {
@@ -10,14 +9,10 @@ namespace Simple_Indexer
     {
         private static List<String> namesList = new List<string>();
         private static int option;
+        static string path = Environment.CurrentDirectory;
         static void Main(string[] args)
         {
-            namesList.Add("MATAIS");
-            namesList.Add("JOSE");
-            namesList.Add("PEDRO");
-            namesList.Add("DIEGO");
-            namesList.Add("BERNARDO");
-            namesList.Add("ANGEL");
+            LoadList();
             while (true)
             {
                 MainMenu();
@@ -32,6 +27,7 @@ namespace Simple_Indexer
                 Console.Write("Add new name: ");
                 string name = Console.ReadLine();
                 namesList.Add(name);
+                UpdateList();
                 break;
             }
         }
@@ -110,7 +106,34 @@ namespace Simple_Indexer
             else
             {
                 namesList.Remove(namesList[option - 1]);
+                UpdateList();
             }
+        }
+        static void LoadList()
+        {
+            StreamReader f = new StreamReader(path + "\\List\\names.txt");
+            string[] names = f.ReadToEnd().Split(',');
+            foreach(string n in names)
+            {
+                namesList.Add(n.ToUpper());
+            }
+            f.Close();
+        }
+
+        static void UpdateList()
+        {
+            StreamWriter f = new StreamWriter(path + "\\List\\names.txt");
+            string finalText = "";
+            char[] c;
+            foreach(string name in namesList)
+            {
+                finalText +=  name + ",";
+            }
+            c = finalText.ToCharArray();
+            c.SetValue('\0', finalText.Length - 1);
+            finalText = new string(c);
+            f.Write(finalText);
+            f.Close();
         }
 
     }
