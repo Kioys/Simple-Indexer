@@ -12,6 +12,12 @@ namespace Simple_Indexer
         private static int option;
         static void Main(string[] args)
         {
+            namesList.Add("MATAIS");
+            namesList.Add("JOSE");
+            namesList.Add("PEDRO");
+            namesList.Add("DIEGO");
+            namesList.Add("BERNARDO");
+            namesList.Add("ANGEL");
             while (true)
             {
                 MainMenu();
@@ -20,7 +26,6 @@ namespace Simple_Indexer
 
         static void AddName()
         {
-            Console.WriteLine("AAA");
             while (true)
             {
                 Console.Clear();
@@ -50,8 +55,6 @@ namespace Simple_Indexer
                     count++;
                 }
             }
-            Console.WriteLine("\n\nPress any key to continue...");
-            Console.ReadKey();
         }
 
         static void MainMenu()
@@ -60,8 +63,8 @@ namespace Simple_Indexer
             Console.WriteLine("Choose an option\n\n");
             while (true)
             {
-                Console.Write("[ 1 ] Add a name to the list\n\n[ 2 ] Display all the names\n\n");
-                Console.Write(">>> ");
+                Console.Write("[ 1 ] Add a name to the list\n\n[ 2 ] Display all the names\n\n[ 3 ] Delete a name off the list");
+                Console.Write("\n\n>>> ");
                 option = Convert.ToInt32(Console.ReadLine());
                 if (option == 1)
                 {
@@ -70,8 +73,43 @@ namespace Simple_Indexer
                 else if (option == 2)
                 {
                     DisplayList();
+
+                    Console.WriteLine("\n\nPress any key to continue...");
+                    Console.ReadKey();
+                }
+                else if (option == 3)
+                {
+                    DeleteName();
                 }
                 break;
+            }
+        }
+
+        static void DeleteName()
+        {
+            DisplayList();
+            Console.Write("\n\n[DELETE] Choose a name: ");
+            try
+            {
+                option = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                Console.Clear();
+                Console.WriteLine("\n\nNO PUEDES COLOCAR LETRAS, SOLO NUMEROS.");
+                Console.WriteLine("\n\nPress any key to continue...");
+                Console.ReadKey();
+            }
+
+            if (option <= 0 || option > namesList.Count)
+            {
+                Console.WriteLine("\n\nNo puede ser menor o igual a 0 o un nombre que no este en la lista");
+                Console.WriteLine("\n\nPress any key to continue...");
+                Console.ReadKey();
+            }
+            else
+            {
+                namesList.Remove(namesList[option - 1]);
             }
         }
 
