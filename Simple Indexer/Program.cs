@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Simple_Indexer
 {
@@ -26,7 +25,7 @@ namespace Simple_Indexer
                 Console.Clear();
                 Console.Write("Add new name: ");
                 string name = Console.ReadLine();
-                namesList.Add(name);
+                namesList.Add(name.ToUpper());
                 UpdateList();
                 break;
             }
