@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Permissions;
 
 namespace Simple_Indexer
 {
+    [UIPermission(SecurityAction.Demand, Unrestricted = true)]
     class Program
     {
         private static List<String> namesList = new List<string>();
@@ -20,15 +22,11 @@ namespace Simple_Indexer
 
         static void AddName()
         {
-            while (true)
-            {
-                Console.Clear();
-                Console.Write("Add new name: ");
-                string name = Console.ReadLine();
-                namesList.Add(name.ToUpper());
-                UpdateList();
-                break;
-            }
+            Console.Clear();
+            Console.Write("Add new name: ");
+            string name = Console.ReadLine();
+            namesList.Add(name.ToUpper());
+            UpdateList();
         }
 
         static void DisplayList()
@@ -60,7 +58,14 @@ namespace Simple_Indexer
             {
                 Console.Write("[ 1 ] Add a name to the list\n\n[ 2 ] Display all the names\n\n[ 3 ] Delete a name off the list");
                 Console.Write("\n\n>>> ");
-                option = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    option = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("No puedes dejar el campo de opcion vacio!");
+                }
                 if (option == 1)
                 {
                     AddName();
@@ -111,32 +116,34 @@ namespace Simple_Indexer
         static void LoadList()
         {
             StreamReader f = new StreamReader(path + "\\List\\names.txt");
-            if (f.Read() > 0)
+            if (f.Peek() > 0)
             {
                 string[] names = f.ReadToEnd().Split(',');
                 foreach (string n in names)
                 {
                     namesList.Add(n.ToUpper());
                 }
-                f.Close();
             }
+            f.Close();
         }
 
         static void UpdateList()
         {
-            StreamWriter f = new StreamWriter(path + "\\List\\names.txt");
-            string finalText = "";
-            char[] c;
-            foreach(string name in namesList)
+            if(namesList.Count > 0)
             {
-                finalText +=  name + ",";
+                StreamWriter f = new StreamWriter(path + "\\List\\names.txt");
+                string finalText = "";
+                char[] c;
+                foreach (string name in namesList)
+                {
+                    finalText += name + ",";
+                }
+                c = finalText.ToCharArray();
+                c.SetValue('\0', finalText.Length - 1);
+                finalText = new string(c);
+                f.Write(finalText);
+                f.Close();
             }
-            c = finalText.ToCharArray();
-            c.SetValue('\0', finalText.Length - 1);
-            finalText = new string(c);
-            f.Write(finalText);
-            f.Close();
         }
-
     }
 }
