@@ -38,7 +38,7 @@ namespace Simple_Indexer
             Console.WriteLine("Name List:\n\n");
             if (namesList.Count == 0)
             {
-                Console.WriteLine("NO NAMES FOUND");
+                Console.WriteLine("NO NAMES/LIST FOUND");
             }
             else
             {
@@ -111,12 +111,15 @@ namespace Simple_Indexer
         static void LoadList()
         {
             StreamReader f = new StreamReader(path + "\\List\\names.txt");
-            string[] names = f.ReadToEnd().Split(',');
-            foreach(string n in names)
+            if (f.Read() > 0)
             {
-                namesList.Add(n.ToUpper());
+                string[] names = f.ReadToEnd().Split(',');
+                foreach (string n in names)
+                {
+                    namesList.Add(n.ToUpper());
+                }
+                f.Close();
             }
-            f.Close();
         }
 
         static void UpdateList()
