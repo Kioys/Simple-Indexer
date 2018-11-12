@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Permissions;
 
 namespace Simple_Indexer
 {
-    [UIPermission(SecurityAction.Demand, Unrestricted = true)]
     class Program
     {
         private static List<String> namesList = new List<string>();
@@ -31,9 +29,9 @@ namespace Simple_Indexer
 
         static void DisplayList()
         {
-            
             Console.Clear();
             Console.WriteLine("Name List:\n\n");
+
             if (namesList.Count == 0)
             {
                 Console.WriteLine("NO NAMES/LIST FOUND");
@@ -41,9 +39,9 @@ namespace Simple_Indexer
             else
             {
                 int count = 1;
+
                 foreach (string name in namesList)
                 {
-
                     Console.Write("  [{0}] {1}\n", count, name);
                     count++;
                 }
@@ -54,10 +52,12 @@ namespace Simple_Indexer
         {
             Console.Clear();
             Console.WriteLine("Choose an option\n\n");
+
             while (true)
             {
                 Console.Write("[ 1 ] Add a name to the list\n\n[ 2 ] Display all the names\n\n[ 3 ] Delete a name off the list");
                 Console.Write("\n\n>>> ");
+
                 try
                 {
                     option = Convert.ToInt32(Console.ReadLine());
@@ -73,7 +73,6 @@ namespace Simple_Indexer
                 else if (option == 2)
                 {
                     DisplayList();
-
                     Console.WriteLine("\n\nPress any key to continue...");
                     Console.ReadKey();
                 }
@@ -113,6 +112,7 @@ namespace Simple_Indexer
                 UpdateList();
             }
         }
+
         static void LoadList()
         {
             StreamReader f = new StreamReader(path + "\\List\\names.txt");
@@ -133,7 +133,6 @@ namespace Simple_Indexer
             {
                 StreamWriter f = new StreamWriter(path + "\\List\\names.txt");
                 string finalText = "";
-                char[] c;
                 foreach (string name in namesList)
                 {
                     finalText += name + ",";
