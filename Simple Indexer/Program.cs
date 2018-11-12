@@ -138,10 +138,7 @@ namespace Simple_Indexer
                 {
                     finalText += name + ",";
                 }
-                c = finalText.ToCharArray();
-                c.SetValue('\0', finalText.Length - 1);
-                finalText = new string(c);
-                f.Write(finalText);
+                f.WriteLine(finalText.Remove(finalText.Length - 1));
                 f.Close();
             }
         }
